@@ -1,0 +1,159 @@
+<Window x:Class="WinCollect.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:WinCollect.ViewModels"
+        Title="win-collect"
+        Height="520" Width="380"
+        MinHeight="520" MinWidth="380"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        Background="#1A1A2E"
+        Closing="Window_Closing">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- Header -->
+            <RowDefinition Height="Auto"/>  <!-- Computer name -->
+            <RowDefinition Height="Auto"/>  <!-- Status cards -->
+            <RowDefinition Height="Auto"/>  <!-- Device ID -->
+            <RowDefinition Height="Auto"/>  <!-- Start / Stop -->
+            <RowDefinition Height="Auto"/>  <!-- Startup checkbox -->
+            <RowDefinition Height="*"/>     <!-- Session log -->
+            <RowDefinition Height="Auto"/>  <!-- Footer -->
+        </Grid.RowDefinitions>
+
+        <!-- ── Header ──────────────────────────────────────────────── -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="win-collect"
+                       FontSize="28" FontWeight="Bold"
+                       Foreground="#E94560"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Keyboard Activity Collector"
+                       FontSize="11" Foreground="#8892B0"
+                       HorizontalAlignment="Center"
+                       Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- ── Computer Name ───────────────────────────────────────── -->
+        <StackPanel Grid.Row="1" Margin="0,0,0,14">
+            <TextBlock Text="COMPUTER NAME" Style="{StaticResource FieldLabel}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Style="{StaticResource ModernTextBox}"
+                         Text="{Binding ComputerName, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Grid.Column="2"
+                        Content="Save"
+                        Style="{StaticResource SecondaryButton}"
+                        Command="{Binding SaveComputerNameCommand}"
+                        Padding="14,8" FontSize="12"/>
+            </Grid>
+        </StackPanel>
+
+        <!-- ── Status Cards ────────────────────────────────────────── -->
+        <Border Grid.Row="2"
+                Background="#16213E" CornerRadius="8"
+                Padding="16,12" Margin="0,0,0,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Monitoring -->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="MONITORING"
+                               FontSize="10" FontWeight="SemiBold"
+                               Foreground="#8892B0"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Ellipse Width="8" Height="8" VerticalAlignment="Center"
+                                 Fill="{Binding MonitoringStatusColor}"
+                                 Margin="0,0,6,0"/>
+                        <TextBlock Text="{Binding MonitoringStatus}"
+                                   FontSize="13" FontWeight="SemiBold"
+                                   Foreground="White"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Firebase -->
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="FIREBASE"
+                               FontSize="10" FontWeight="SemiBold"
+                               Foreground="#8892B0"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Ellipse Width="8" Height="8" VerticalAlignment="Center"
+                                 Fill="{Binding FirebaseStatusColor}"
+                                 Margin="0,0,6,0"/>
+                        <TextBlock Text="{Binding FirebaseStatus}"
+                                   FontSize="13" FontWeight="SemiBold"
+                                   Foreground="White"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ── Device ID ────────────────────────────────────────────── -->
+        <StackPanel Grid.Row="3" Margin="0,0,0,14">
+            <TextBlock Text="DEVICE ID" Style="{StaticResource FieldLabel}"/>
+            <TextBlock Text="{Binding DeviceId}"
+                       FontSize="11" Foreground="#8892B0"
+                       FontFamily="Consolas" TextTrimming="CharacterEllipsis"/>
+        </StackPanel>
+
+        <!-- ── Start / Stop ─────────────────────────────────────────── -->
+        <Grid Grid.Row="4" Margin="0,0,0,14">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Content="▶  START"
+                    Style="{StaticResource GreenButton}"
+                    Command="{Binding StartCommand}"
+                    Height="44"/>
+            <Button Grid.Column="2"
+                    Content="■  STOP"
+                    Style="{StaticResource DangerButton}"
+                    Command="{Binding StopCommand}"
+                    Height="44"/>
+        </Grid>
+
+        <!-- ── Windows Startup ──────────────────────────────────────── -->
+        <CheckBox Grid.Row="5"
+                  Content="Start application with Windows"
+                  Style="{StaticResource ModernCheckBox}"
+                  IsChecked="{Binding StartWithWindows}"
+                  Margin="0,0,0,14"/>
+
+        <!-- ── Session Log ───────────────────────────────────────────── -->
+        <Border Grid.Row="6"
+                Background="#16213E" CornerRadius="8"
+                Padding="12">
+            <StackPanel>
+                <TextBlock Text="SESSION LOG"
+                           FontSize="10" FontWeight="SemiBold"
+                           Foreground="#8892B0" Margin="0,0,0,6"/>
+                <TextBlock Text="{Binding SessionInfo}"
+                           FontSize="11" Foreground="#8892B0"
+                           FontFamily="Consolas"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ── Footer ───────────────────────────────────────────────── -->
+        <TextBlock Grid.Row="7"
+                   Text="Minimizes to system tray when monitoring starts"
+                   FontSize="10" Foreground="#4A5568"
+                   HorizontalAlignment="Center"
+                   Margin="0,10,0,0"/>
+    </Grid>
+</Window>

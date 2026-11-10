@@ -1,0 +1,125 @@
+name: Build win-collect
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore win-collect.sln
+
+      - name: Build solution
+        run: dotnet build win-collect.sln --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test win-collect.sln --configuration Release --no-build --verbosity normal
+
+      - name: Publish application
+        run: |
+          dotnet publish src/win-collect/win-collect.csproj `
+            --configuration Release `
+            --runtime win-x64 `
+            --self-contained true `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -o artifacts/publish
+
+      - name: Verify executable exists
+        run: |
+          if (-not (Test-Path "artifacts/publish/win-collect.exe")) {
+            Write-Error "Executable not found!"
+            exit 1
+          }
+          Write-Host "Executable found: artifacts/publish/win-collect.exe"
+
+      - name: Upload executable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: win-collect-win-x64
+          path: artifacts/publish/win-collect.exe
+          retention-days: 14
+
+  release:
+    runs-on: windows-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore win-collect.sln
+
+      - name: Publish release build
+        run: |
+          dotnet publish src/win-collect/win-collect.csproj `
+            --configuration Release `
+            --runtime win-x64 `
+            --self-contained true `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -o artifacts/publish
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=$($env:GITHUB_REF -replace 'refs/tags/', '')" >> $env:GITHUB_OUTPUT
+
+      - name: Zip portable build
+        run: |
+          Compress-Archive -Path "artifacts/publish/win-collect.exe" `
+            -DestinationPath "artifacts/win-collect-${{ steps.version.outputs.VERSION }}-win-x64.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "win-collect ${{ steps.version.outputs.VERSION }}"
+          body: |
+            ## win-collect ${{ steps.version.outputs.VERSION }}
+
+            ### Installation
+            Download `win-collect-${{ steps.version.outputs.VERSION }}-win-x64.zip`, extract, and run `win-collect.exe`.
+
+            ### What's included
+            - Self-contained executable (no .NET runtime required)
+            - Global keyboard activity collection
+            - Firebase Firestore cloud synchronization
+            - System tray background operation
+
+            > **For research and educational use only.**
+          files: |
+            artifacts/win-collect-${{ steps.version.outputs.VERSION }}-win-x64.zip
+          draft: false
+          prerelease: false

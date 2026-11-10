@@ -1,0 +1,44 @@
+## .gitignore for win-collect (.NET/C# WPF)
+
+# Build output
+artifacts/
+bin/
+obj/
+*.user
+*.suo
+
+# NuGet
+*.nuget.props
+*.nuget.targets
+packages/
+.nuget/
+
+# Visual Studio
+.vs/
+*.ncb
+*.sdf
+
+# Rider
+.idea/
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# App user data (never commit these)
+*.db
+*.db-shm
+*.db-wal
+appsettings.local.json
+
+# Firebase credentials — NEVER commit
+*service-account*.json
+*firebase-adminsdk*.json
+google-services.json
+
+# WiX intermediate files
+*.wixobj
+*.wixpdb
+
+# Test results
+TestResults/

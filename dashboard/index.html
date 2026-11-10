@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>win-collect Dashboard</title>
+  <link rel="stylesheet" href="/src/style.css"/>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">win-collect</div>
+    <div class="header-right">
+      <span id="status">Connecting…</span>
+    </div>
+  </header>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-value" id="total-devices">—</div>
+      <div class="stat-label">Computers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="total-sessions">—</div>
+      <div class="stat-label">Total Sessions</div>
+    </div>
+  </div>
+
+  <!-- Devices grid -->
+  <main>
+    <h2 class="section-title">Connected Computers</h2>
+    <div id="devices" class="devices-grid">
+      <div class="loading">Loading devices…</div>
+    </div>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<Application x:Class="WinCollect.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnExplicitShutdown">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- ── Palette ─────────────────────────────────────────── -->
+            <SolidColorBrush x:Key="BackgroundBrush"      Color="#1A1A2E"/>
+            <SolidColorBrush x:Key="SurfaceBrush"         Color="#16213E"/>
+            <SolidColorBrush x:Key="PrimaryBrush"         Color="#0F3460"/>
+            <SolidColorBrush x:Key="AccentBrush"          Color="#E94560"/>
+            <SolidColorBrush x:Key="AccentGreenBrush"     Color="#00B09B"/>
+            <SolidColorBrush x:Key="TextPrimaryBrush"     Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="TextSecondaryBrush"   Color="#8892B0"/>
+            <SolidColorBrush x:Key="CardBorderBrush"      Color="#233554"/>
+
+            <!-- ── Button ─────────────────────────────────────────── -->
+            <Style x:Key="PrimaryButton" TargetType="Button">
+                <Setter Property="Background"   Value="{StaticResource AccentBrush}"/>
+                <Setter Property="Foreground"   Value="White"/>
+                <Setter Property="FontWeight"   Value="SemiBold"/>
+                <Setter Property="FontSize"     Value="13"/>
+                <Setter Property="Padding"      Value="20,10"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Cursor"       Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+                                    CornerRadius="6"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.35"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SecondaryButton" TargetType="Button"
+                   BasedOn="{StaticResource PrimaryButton}">
+                <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            </Style>
+
+            <Style x:Key="GreenButton" TargetType="Button"
+                   BasedOn="{StaticResource PrimaryButton}">
+                <Setter Property="Background" Value="{StaticResource AccentGreenBrush}"/>
+            </Style>
+
+            <Style x:Key="DangerButton" TargetType="Button"
+                   BasedOn="{StaticResource PrimaryButton}">
+                <Setter Property="Background" Value="#C0392B"/>
+            </Style>
+
+            <!-- ── TextBox ────────────────────────────────────────── -->
+            <Style x:Key="ModernTextBox" TargetType="TextBox">
+                <Setter Property="Background"       Value="{StaticResource PrimaryBrush}"/>
+                <Setter Property="Foreground"       Value="{StaticResource TextPrimaryBrush}"/>
+                <Setter Property="BorderBrush"      Value="{StaticResource CardBorderBrush}"/>
+                <Setter Property="BorderThickness"  Value="1"/>
+                <Setter Property="Padding"          Value="10,8"/>
+                <Setter Property="FontSize"         Value="13"/>
+                <Setter Property="CaretBrush"       Value="White"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBox">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="6"
+                                    Padding="{TemplateBinding Padding}">
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                              VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="BorderBrush"
+                                            Value="{StaticResource AccentBrush}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- ── CheckBox ──────────────────────────────────────── -->
+            <Style x:Key="ModernCheckBox" TargetType="CheckBox">
+                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                <Setter Property="FontSize"   Value="12"/>
+                <Setter Property="Cursor"     Value="Hand"/>
+            </Style>
+
+            <!-- ── Field label ───────────────────────────────────── -->
+            <Style x:Key="FieldLabel" TargetType="TextBlock">
+                <Setter Property="Foreground"  Value="{StaticResource TextSecondaryBrush}"/>
+                <Setter Property="FontSize"    Value="10"/>
+                <Setter Property="FontWeight"  Value="SemiBold"/>
+                <Setter Property="Margin"      Value="0,0,0,5"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

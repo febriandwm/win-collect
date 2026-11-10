@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package
+    Name="win-collect"
+    Manufacturer="win-collect"
+    Version="$(var.Version)"
+    UpgradeCode="{C1234567-89AB-CDEF-0123-456789ABCDEF}"
+    InstallerVersion="500"
+    Compressed="yes">
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of win-collect is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="win-collect" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+      <ComponentRef Id="ApplicationShortcutStartMenu" />
+    </Feature>
+  </Package>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDER" Name="win-collect" />
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop" />
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="win-collect" />
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="MainExecutable" Guid="{D1234567-89AB-CDEF-0123-456789ABCDEF}">
+        <File Id="WinCollectExe"
+              Source="..\..\artifacts\publish\win-collect.exe"
+              KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- Desktop Shortcut -->
+    <Component Id="ApplicationShortcutDesktop" Guid="{E1234567-89AB-CDEF-0123-456789ABCDEF}" Directory="DesktopFolder">
+      <Shortcut Id="DesktopShortcut"
+                Name="win-collect"
+                Description="Keyboard Activity Collector"
+                Target="[INSTALLFOLDER]win-collect.exe"
+                WorkingDirectory="INSTALLFOLDER" />
+      <RemoveFolder Id="RemoveDesktop" Directory="DesktopFolder" On="uninstall" />
+      <RegistryValue Root="HKCU" Key="Software\win-collect" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+
+    <!-- Start Menu Shortcut -->
+    <Component Id="ApplicationShortcutStartMenu" Guid="{F1234567-89AB-CDEF-0123-456789ABCDEF}" Directory="ApplicationProgramsFolder">
+      <Shortcut Id="StartMenuShortcut"
+                Name="win-collect"
+                Description="Keyboard Activity Collector"
+                Target="[INSTALLFOLDER]win-collect.exe"
+                WorkingDirectory="INSTALLFOLDER" />
+      <RemoveFolder Id="RemoveStartMenu" Directory="ApplicationProgramsFolder" On="uninstall" />
+      <RegistryValue Root="HKCU" Key="Software\win-collect" Name="startmenu" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+  </Fragment>
+</Wix>

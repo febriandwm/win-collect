@@ -24,7 +24,7 @@ public partial class MainWindow : Window
     public void ShowWindow()
     {
         Show();
-        WindowState = WindowState.Normal;
+        WindowState = System.Windows.WindowState.Normal;
         Activate();
     }
 }

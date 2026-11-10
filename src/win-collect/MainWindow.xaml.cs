@@ -1,5 +1,6 @@
-using System.Windows;
 using WinCollect.Infrastructure;
+using Application = System.Windows.Application;
+using Window      = System.Windows.Window;
 
 namespace WinCollect;
 

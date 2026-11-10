@@ -1,7 +1,10 @@
-using System.Windows;
-using System.Windows.Controls;
 using Hardcodet.Wpf.TaskbarNotification;
 using WinCollect.Infrastructure;
+// Explicit WPF aliases — guards against future ambiguity if WinForms ever re-enters the project
+using Application  = System.Windows.Application;
+using ContextMenu  = System.Windows.Controls.ContextMenu;
+using MenuItem     = System.Windows.Controls.MenuItem;
+using Separator    = System.Windows.Controls.Separator;
 
 namespace WinCollect.Services;
 

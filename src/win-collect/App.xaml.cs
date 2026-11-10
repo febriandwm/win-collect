@@ -1,7 +1,13 @@
-using System.Windows;
 using WinCollect.Services;
 using WinCollect.Infrastructure;
 using Serilog;
+// Explicit WPF aliases — prevents ambiguity with System.Windows.Forms if ever referenced
+using Application    = System.Windows.Application;
+using MessageBox     = System.Windows.MessageBox;
+using MessageBoxButton = System.Windows.MessageBoxButton;
+using MessageBoxImage  = System.Windows.MessageBoxImage;
+using StartupEventArgs = System.Windows.StartupEventArgs;
+using ExitEventArgs    = System.Windows.ExitEventArgs;
 
 namespace WinCollect;
 

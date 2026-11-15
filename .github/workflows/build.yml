@@ -33,6 +33,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore win-collect.sln
 
+      - name: Generate icons
+        run: powershell -ExecutionPolicy Bypass -File scripts/generate-icons.ps1 -OutputDir src/win-collect/Resources
+
       - name: Build solution
         run: dotnet build win-collect.sln --configuration Release --no-restore
 
@@ -82,6 +85,9 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore win-collect.sln
+
+      - name: Generate icons
+        run: powershell -ExecutionPolicy Bypass -File scripts/generate-icons.ps1 -OutputDir src/win-collect/Resources
 
       - name: Publish release build
         run: |

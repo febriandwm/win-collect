@@ -1,6 +1,7 @@
 using WinCollect.Infrastructure;
-using Application = System.Windows.Application;
-using Window      = System.Windows.Window;
+using Application  = System.Windows.Application;
+using Window       = System.Windows.Window;
+using WindowState  = System.Windows.WindowState;
 
 namespace WinCollect;
 

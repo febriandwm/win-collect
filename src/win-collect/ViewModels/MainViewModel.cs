@@ -1,12 +1,16 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Serilog;
 using WinCollect.Infrastructure;
 using WinCollect.Models;
 using WinCollect.Services;
+// Explicit WPF aliases — prevents ambiguity
+using Application      = System.Windows.Application;
+using MessageBox       = System.Windows.MessageBox;
+using MessageBoxButton = System.Windows.MessageBoxButton;
+using MessageBoxImage  = System.Windows.MessageBoxImage;
 
 namespace WinCollect.ViewModels;
 
